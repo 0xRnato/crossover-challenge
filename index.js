@@ -39,3 +39,4 @@ app.use('/',express.static('client'));
 app.listen(configs.applicationPort, function () {
   console.log('Example app listening on port '+configs.applicationPort+'!');
 });
+// TODO: make a readme with coverage build and tests badges
