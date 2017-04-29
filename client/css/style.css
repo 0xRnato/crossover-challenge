@@ -2,5 +2,8 @@
     width: 100%;
 }
 .video-card{
-    width: 30%;
+    width: 16%;
+}
+.md-title{
+    font-size: 13px;
 }

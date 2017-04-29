@@ -1,4 +1,4 @@
-(function(){
+(function () {
     'use strict';
 
     angular
@@ -9,13 +9,24 @@
 
     function HomeService($http) {
         var service = {
-            logout: _logout
+            logout: _logout,
+            loadVideos: _loadVideos
         };
 
         return service;
 
-        function _logout(sessionId) {
-            return $http.get('/user/logout', {params:{sessionId: sessionId}});
+        function _logout(_sessionId) {
+            return $http.get('/user/logout', { params: {
+                sessionId: _sessionId }
+            });
+        }
+
+        function _loadVideos(_sessionId, _skip, _limit) {
+            return $http.get('/videos', { params: {
+                sessionId: _sessionId,
+                skip: _skip,
+                limit: _limit }
+            });
         }
     }
 })();

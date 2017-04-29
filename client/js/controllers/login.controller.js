@@ -14,13 +14,13 @@
             vm.dataLoading = true;
             LoginService.userAuth(angular.copy(vm.user)).then(
                 function sucessCallback(response) {
-                    if(response.data.status == 'success'){
+                    if (response.data.status == 'success') {
                         var userSession = {
                             username: response.data.username,
                             sessionId: response.data.sessionId
                         }
                         $rootScope.userSession = userSession;
-                        $mdToast.show($mdToast.simple().textContent('Signed in Successfully'));
+                        $mdToast.show($mdToast.simple().textContent('Welcome ' + userSession.username));
                         $location.path('/home');
                     } else {
                         $mdToast.show($mdToast.simple().textContent(response.data.error));

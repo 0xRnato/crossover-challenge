@@ -2,44 +2,26 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <span>Crossover Video Portal</span>
-            <span flex></span>
-            Welcome {{userSession.username}}
+            <span flex></span> Welcome {{userSession.username}}
             <md-button aria-label="logout" ng-click="homeController.logout()"> logout </md-button>
-            <md-progress-circular ng-if="homeController.dataLoading" class="md-hue-1" md-diameter="30"></md-progress-circular>
         </div>
     </md-toolbar>
 
-    <section layout layout-wrap layout-align="center">
-        <md-card class="video-card">
+    <md-progress-linear ng-if="homeController.dataLoading" md-mode="indeterminate" aria-label="label"></md-progress-linear>
+
+    <section layout layout-wrap layout-align="center" on-scroll="homeController.loadMore()" style="height: 80vh;
+    overflow: auto;">
+        <md-card class="video-card" ng-repeat="video in homeController.videos">
             <md-card-header>
                 <md-card-header-text>
-                    <span class="md-title">{{video.tittle}}</span>
+                    <span class="md-title">{{video.name}}</span>
                 </md-card-header-text>
             </md-card-header>
             <video width="100%" controls>
-                <source src="videos/Google_Cardboard_Assembly.mp4" type="video/mp4">
+                <source ng-src="{{video.url}}" type="video/mp4">
             </video>
-            <md-card-actions layout="column" layout-align="start start">
-                <md-card-icon-actions>
-                    <md-button class="md-icon-button" aria-label="icon">
-                        <ng-md-icon icon="star" style="fill: gold" size="24"></ng-md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="icon">
-                        <ng-md-icon icon="star" style="fill: gold" size="24"></ng-md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="icon">
-                        <ng-md-icon icon="star" style="fill: gold" size="24"></ng-md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="icon">
-                        <ng-md-icon icon="star_border" style="fill: gray" size="24"></ng-md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="icon">
-                        <ng-md-icon icon="star_border" style="fill: gray" size="24"></ng-md-icon>
-                    </md-button>
-                </md-card-icon-actions>
-            </md-card-actions>
-            <md-card-content>
-                video description
+            <md-card-content layout-align="start start">
+                <ng-md-icon ng-repeat="star in video.stars" icon="{{star.icon}}" size="24"></ng-md-icon>
             </md-card-content>
         </md-card>
     </section>

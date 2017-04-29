@@ -43,12 +43,64 @@
             });
         };
 
+        vm.userSession = $rootScope.userSession;
+        vm.videos = [];
+        var count = 0;
+        vm.loadMore = function () {
+            vm.dataLoading = true;
+            HomeService.loadVideos(angular.copy(vm.userSession.sessionId), count, 10).then(function sucessCallback(response) {
+                if (response.data.status == 'success') {
+                    if (response.data.data.length > 0) {
+                        var _videos = response.data.data;
+                        _videos.forEach(function (video) {
+                            var ratings = video.ratings;
+                            var sum = 0;
+                            ratings.forEach(function (rating) {
+                                sum += rating;
+                            });
+                            video.average = sum / ratings.length;
+                            video.goldStars = Math.floor(video.average);
+                            video.halfStars = video.average === video.goldStars ? false : true;
+                            video.grayStars = video.halfStars ? 4 - video.goldStars : 5 - video.goldStars;
+                            video.stars = [];
+                            for (var i = 0; i < video.goldStars; i++) {
+                                video.stars.push({
+                                    icon: 'star'
+                                });
+                            }
+                            if (video.halfStars) {
+                                video.stars.push({
+                                    icon: 'star_half'
+                                });
+                            }
+                            for (var i = 0; i < video.grayStars; i++) {
+                                video.stars.push({
+                                    icon: 'star_border'
+                                });
+                            }
+                        });
+                        _videos.forEach(function (newVideo) {
+                            vm.videos.push(newVideo);
+                        });
+                        vm.dataLoading = false;
+                        count += 10;
+                    } else {
+                        vm.dataLoading = false;
+                    }
+                } else {
+                    $mdToast.show($mdToast.simple().textContent(response.data.error));
+                    vm.dataLoading = false;
+                }
+            }, function errorCallback(response) {
+                $mdToast.show($mdToast.simple().textContent('Status error: ' + response.status + ' - ' + response.statusText));
+                vm.dataLoading = false;
+            });
+        };
+        vm.loadMore();
+
         activate();
 
-        function activate() {
-            vm.userSession = $rootScope.userSession;
-            vm.dataLoading = false;
-        }
+        function activate() {}
     }
 })();
 (function () {
@@ -70,7 +122,7 @@
                         sessionId: response.data.sessionId
                     };
                     $rootScope.userSession = userSession;
-                    $mdToast.show($mdToast.simple().textContent('Signed in Successfully'));
+                    $mdToast.show($mdToast.simple().textContent('Welcome ' + userSession.username));
                     $location.path('/home');
                 } else {
                     $mdToast.show($mdToast.simple().textContent(response.data.error));

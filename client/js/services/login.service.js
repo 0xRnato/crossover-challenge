@@ -14,9 +14,9 @@
 
         return service;
 
-        function _userAuth(user) {
-            user.password = md5.createHash(user.password);
-            return $http.post('/user/auth', user);
+        function _userAuth(_user) {
+            _user.password = md5.createHash(_user.password);
+            return $http.post('/user/auth', _user);
         }
     }
 })();
