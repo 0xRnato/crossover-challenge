@@ -9,7 +9,6 @@
 
     <md-progress-linear ng-if="homeController.dataLoading" md-mode="indeterminate" aria-label="label"></md-progress-linear>
 
-<!--TODO: CHANGE TO MATERIAL DESIGN INFINITE SCROLL-->
     <section layout layout-wrap layout-align="center" on-scroll="homeController.loadMore()" style="height: 80vh; overflow: auto;">
         <md-card class="video-card" ng-repeat="video in homeController.videos">
             <md-card-header>
@@ -18,7 +17,7 @@
                 </md-card-header-text>
             </md-card-header>
             <!--TODO: pause all videos when play another-->
-            <video width="100%" preload="auto" controls>
+            <video width="100%" preload="auto" id="{{video._id}}" playing="homeController.pauseOthers(video._id)" controls ng-click="homeController.playVideo(video._id)">
                 <source ng-src="{{video.url}}" type="video/mp4">
             </video>
             <md-card-content layout-align="start start">

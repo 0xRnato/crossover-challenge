@@ -92,8 +92,26 @@
         };
         vm.loadMore();
 
+        vm.playVideo = function (_id) {
+            var video = document.getElementById(_id);
+            if (video.paused)
+                video.play();
+            else
+                video.pause();
+        };
+
+        vm.pauseOthers = function (_id) {
+            var vid = document.getElementsByTagName('video');
+            for (var key = 0; key < vid.length; key++) {
+                var video = vid[key];
+                if (video.id != _id) {
+                    video.pause();
+                }
+            }
+        };
+
         activate();
 
-        function activate() {}
+        function activate() { }
     }
 })();
