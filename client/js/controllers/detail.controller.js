@@ -182,7 +182,7 @@
         };
 
         vm.playVideo = (_id) => {
-            const video = $document.getElementById(_id);
+            const video = $document[0].getElementById(_id);
             if (video.paused)
                 video.play();
             else

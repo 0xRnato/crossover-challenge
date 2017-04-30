@@ -11,7 +11,7 @@
         <md-card class="video-card-home" ng-repeat="video in homeController.videos">
             <md-card-header ng-click="homeController.openVideo(video._id)">
                 <md-card-header-text>
-                    <span class="md-title">{{video.name}}</span>
+                    <span class="md-title-home">{{video.name}}</span>
                 </md-card-header-text>
             </md-card-header>
             <video width="100%" preload="auto" id="{{video._id}}" playing="homeController.pauseOthers(video._id)" controls ng-click="homeController.playVideo(video._id)">

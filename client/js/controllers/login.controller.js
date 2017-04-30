@@ -37,7 +37,7 @@
                     } else {
                         $mdToast.show($mdToast.simple().textContent(response.data.error));
                         vm.user = {};
-                        const input = $document.getElementById('usernameForm');
+                        const input = $document[0].getElementById('usernameForm');
                         input.focus();
                         vm.dataLoading = false;
                     }
@@ -47,7 +47,7 @@
                         .textContent('Status error: ' + response.status + ' - ' + response.statusText)
                     );
                     vm.user = {};
-                    const input = $document.getElementById('usernameForm');
+                    const input = $document[0].getElementById('usernameForm');
                     input.focus();
                     vm.dataLoading = false;
                 }

@@ -17,7 +17,8 @@
         HomeService,
         $rootScope,
         $mdToast,
-        $location
+        $location,
+        $document
     ) {
         const vm = this;
         let count;
@@ -101,7 +102,7 @@
         };
 
         vm.playVideo = (_id) => {
-            const video = $document.getElementById(_id);
+            const video = $document[0].getElementById(_id);
             if (video.paused)
                 video.play();
             else
@@ -109,7 +110,7 @@
         };
 
         vm.pauseOthers = (_id) => {
-            const vid = $document.getElementsByTagName('video');
+            const vid = $document[0].getElementsByTagName('video');
             for (let key = 0; key < vid.length; key++) {
                 let video = vid[key];
                 if (video.id != _id) {

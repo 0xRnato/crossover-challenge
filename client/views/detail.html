@@ -35,21 +35,23 @@
             </div>
         </md-toolbar>
 
-        <section layout="row" flex layout-align="center">
-            <md-card class="video-card-detail">
-                <md-card-header>
-                    <md-card-header-text>
-                        <span class="md-title">{{detailController.video.name}}</span>
-                    </md-card-header-text>
-                </md-card-header>
-                <video preload="auto" id="{{detailController.video._id}}" controls ng-click="detailController.playVideo(detailController.video._id)">
-                    <source ng-src="{{detailController.video.url}}" type="video/mp4">
-                </video>
-                <md-card-content layout-wrap layout="row" layout-align="center">
-                    <div flex="75" layout-margin layout-padding layout-align="start">
+        <section flex layout-align="center">
+            <md-card layout="row" layout-wrap class="video-card-detail">
+                <div flex="70">
+                    <md-card-header>
+                        <md-card-header-text>
+                            <span class="md-title">{{detailController.video.name}}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <video autoplay layout-margin layout-align="center" class="video-detail" layout width="80%" preload="auto" id="{{detailController.video._id}}"
+                        controls ng-click="detailController.playVideo(detailController.video._id)" ng-src="{{detailController.video.url}}">
+                    </video>
+                </div>
+                <md-card-content flex="30" layout="column" layout-align="center">
+                    <div layout-margin layout-padding layout-align="start">
                         {{detailController.video.description}}
                     </div>
-                    <div flex="20" layout-margin layout-padding layout-align="end">
+                    <div layout-margin layout-padding layout-align="center">
                         <h1 class="md-titlel">Rate this video</h1>
                         <div layout="column">
                             <md-input-container>
@@ -61,9 +63,9 @@
                                 </md-select>
                             </md-input-container>
                         </div>
-                        <md-progress-circular ng-if="detailController.ratingLoading" md-mode="indeterminate"></md-progress-circular>
                     </div>
                 </md-card-content>
+                <md-progress-linear ng-if="detailController.ratingLoading" md-mode="indeterminate"></md-progress-linear>
             </md-card>
         </section>
         <md-button class="md-fab md-primary md-fab-fixed" ng-click="detailController.toggleRight()" aria-label="Videos List">
