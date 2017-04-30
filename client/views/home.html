@@ -7,7 +7,7 @@
         </div>
     </md-toolbar>
 
-    <section layout layout-wrap layout-align="center" on-scroll="homeController.loadMore()" style="height: 89vh; overflow: auto;">
+    <section layout="row" layout-wrap layout-align="center" on-scroll="homeController.loadMore()" class="home-section" style="overflow: auto;">
         <md-card class="video-card-home" ng-repeat="video in homeController.videos">
             <md-card-header ng-click="homeController.openVideo(video._id)">
                 <md-card-header-text>
