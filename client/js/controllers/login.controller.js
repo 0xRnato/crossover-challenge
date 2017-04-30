@@ -31,7 +31,8 @@
                             username: response.data.username,
                             sessionId: response.data.sessionId
                         }
-                        $rootScope.userSession = userSession;
+                        vm.userSession = userSession;
+                        $rootScope.userSession = angular.copy(vm.userSession);
                         $mdToast.show($mdToast.simple().textContent('Welcome ' + userSession.username));
                         $location.path('/home');
                     } else {

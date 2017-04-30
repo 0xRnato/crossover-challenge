@@ -1,4 +1,5 @@
 node_modules/*
 client/libs/*
 client/dist/*
+client/coverage/*
 videos/

@@ -18,7 +18,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('minify-css', function () {
-	return gulp.src('client/css/*.css')
+	return gulp.src(['client/css/*.css'])
 		.pipe(concat('main.css'))
 		.pipe(cleanCSS({ compatibility: 'ie8' }))
 		.pipe(gulp.dest('client/dist'));
@@ -26,7 +26,9 @@ gulp.task('minify-css', function () {
 
 gulp.task('minify-main', function () {
 	return gulp
-		.src(['client/js/*.js'])
+		.src([
+			'!client/js/*.spec.js',
+			'client/js/*.js'])
 		.pipe(concat('main.js'))
 		.pipe(babel({
 			presets: ['es2015']
@@ -37,7 +39,9 @@ gulp.task('minify-main', function () {
 
 gulp.task('minify-controllers', function () {
 	return gulp
-		.src(['client/js/controllers/*.js'])
+		.src([
+			'!client/js/controllers/*.spec.js',
+			'client/js/controllers/*.js'])
 		.pipe(concat('controllers.js'))
 		.pipe(babel({
 			presets: ['es2015']
@@ -48,7 +52,9 @@ gulp.task('minify-controllers', function () {
 
 gulp.task('minify-services', function () {
 	return gulp
-		.src(['client/js/services/*.js'])
+		.src([
+			'!client/js/services/*.spec.js',
+			'client/js/services/*.js'])
 		.pipe(concat('services.js'))
 		.pipe(babel({
 			presets: ['es2015']
@@ -59,7 +65,9 @@ gulp.task('minify-services', function () {
 
 gulp.task('minify-directives', function () {
 	return gulp
-		.src(['client/js/directives/*.js'])
+		.src([
+			'!client/js/directives/*.spec.js',
+			'client/js/directives/*.js'])
 		.pipe(concat('directives.js'))
 		.pipe(babel({
 			presets: ['es2015']
