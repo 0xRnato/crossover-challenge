@@ -24,8 +24,10 @@
                         $location.path('/home');
                     } else {
                         $mdToast.show($mdToast.simple().textContent(response.data.error));
-                        vm.dataLoading = false;
                         vm.user = {};
+                        var input = document.getElementById('usernameForm');
+                        input.focus();
+                        vm.dataLoading = false;
                     }
                 },
                 function errorCallback(response) {
@@ -33,6 +35,8 @@
                         .textContent('Status error: ' + response.status + ' - ' + response.statusText)
                     );
                     vm.user = {};
+                    var input = document.getElementById('usernameForm');
+                    input.focus();
                     vm.dataLoading = false;
                 }
             );
