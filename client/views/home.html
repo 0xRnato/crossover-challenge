@@ -7,16 +7,13 @@
         </div>
     </md-toolbar>
 
-    <md-progress-linear ng-if="homeController.dataLoading" md-mode="indeterminate" aria-label="label"></md-progress-linear>
-
-    <section layout layout-wrap layout-align="center" on-scroll="homeController.loadMore()" style="height: 80vh; overflow: auto;">
-        <md-card class="video-card" ng-repeat="video in homeController.videos">
-            <md-card-header>
+    <section layout layout-wrap layout-align="center" on-scroll="homeController.loadMore()" style="height: 89vh; overflow: auto;">
+        <md-card class="video-card-home" ng-repeat="video in homeController.videos">
+            <md-card-header ng-click="homeController.openVideo(video._id)">
                 <md-card-header-text>
                     <span class="md-title">{{video.name}}</span>
                 </md-card-header-text>
             </md-card-header>
-            <!--TODO: pause all videos when play another-->
             <video width="100%" preload="auto" id="{{video._id}}" playing="homeController.pauseOthers(video._id)" controls ng-click="homeController.playVideo(video._id)">
                 <source ng-src="{{video.url}}" type="video/mp4">
             </video>
@@ -25,4 +22,5 @@
             </md-card-content>
         </md-card>
     </section>
+    <md-progress-linear class="md-progress-bottom" ng-if="homeController.dataLoading" md-mode="indeterminate" aria-label="label"></md-progress-linear>
 </md-content>

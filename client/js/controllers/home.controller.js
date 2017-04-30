@@ -9,6 +9,7 @@
 
     function HomeController(HomeService, $rootScope, $mdToast, $location) {
         var vm = this;
+        var count;
 
         vm.logout = function () {
             vm.dataLoading = true;
@@ -32,9 +33,6 @@
             );
         }
 
-        vm.userSession = $rootScope.userSession;
-        vm.videos = [];
-        var count = 0;
         vm.loadMore = function () {
             vm.dataLoading = true;
             HomeService.loadVideos(angular.copy(vm.userSession.sessionId), count, 10).then(
@@ -90,7 +88,6 @@
                 }
             );
         };
-        vm.loadMore();
 
         vm.playVideo = function (_id) {
             var video = document.getElementById(_id);
@@ -110,8 +107,18 @@
             }
         };
 
+        vm.openVideo = function (_id) {
+            $rootScope.videoId = _id;
+            $location.path('/detail');
+        };
+
         activate();
 
-        function activate() { }
+        function activate() {
+            vm.userSession = $rootScope.userSession;
+            vm.videos = [];
+            count = 0;
+            vm.loadMore();
+        }
     }
 })();

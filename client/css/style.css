@@ -1,9 +1,28 @@
+*{
+    overflow-x: hidden;
+}
 .form-login{
     width: 100%;
 }
-.video-card{
-    width: 16%;
+.video-card-home{
+    width: 20%;
+}
+.video-card-detail{
+    height: 85vh;
 }
 .md-title{
     font-size: 13px;
+}
+md-card-header, .toolbar-link, .video-preview-detail{
+    cursor: pointer;
+    cursor: hand;
+}
+.md-fab-fixed{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+.md-progress-bottom{
+    position: fixed;
+    bottom: 0;
 }

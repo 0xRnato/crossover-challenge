@@ -1,1 +1,74 @@
-<h1>Detail</h1>
+<section layout="row" flex>
+    <md-sidenav class="md-sidenav-right" md-component-id="right" md-disable-backdrop md-whiteframe="4">
+
+        <md-toolbar class="md-theme-indigo" layout="row">
+            <h1 class="md-toolbar-tools">More Videos</h1>
+            <md-button aria-label="Close" ng-click="detailController.toggleRight()"> Close </md-button>
+        </md-toolbar>
+
+        <md-content>
+            <section layout layout-wrap layout-align="center" on-scroll="detailController.loadMore()" style="height: 89vh; overflow: auto;">
+                <md-card ng-repeat="video in detailController.videos" class="video-preview-detail" ng-click="detailController.openVideo(video._id)">
+                    <md-card-header>
+                        <md-card-header-text>
+                            <span class="md-title">{{video.name}}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <video width="100%">
+                        <source ng-src="{{video.url}}" type="video/mp4">
+                    </video>
+                    <md-card-content layout-align="start start">
+                        <ng-md-icon ng-repeat="star in video.stars" icon="{{star.icon}}" size="24"></ng-md-icon>
+                    </md-card-content>
+                </md-card>
+            </section>
+        </md-content>
+        <md-progress-linear ng-if="detailController.dataLoading" md-mode="indeterminate" aria-label="label"></md-progress-linear>
+    </md-sidenav>
+
+    <md-content flex>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <span class="toolbar-link" ng-click="detailController.backToHome()">Crossover Video Portal</span>
+                <span flex></span> Welcome {{userSession.username}}
+                <md-button aria-label="logout" ng-click="detailController.logout()"> logout </md-button>
+            </div>
+        </md-toolbar>
+
+        <section layout="row" flex layout-align="center">
+            <md-card class="video-card-detail">
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">{{detailController.video.name}}</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <video preload="auto" id="{{detailController.video._id}}" controls ng-click="detailController.playVideo(detailController.video._id)">
+                    <source ng-src="{{detailController.video.url}}" type="video/mp4">
+                </video>
+                <md-card-content layout-wrap layout="row" layout-align="center">
+                    <div flex="75" layout-margin layout-padding layout-align="start">
+                        {{detailController.video.description}}
+                    </div>
+                    <div flex="20" layout-margin layout-padding layout-align="end">
+                        <h1 class="md-titlel">Rate this video</h1>
+                        <div layout="column">
+                            <md-input-container>
+                                <label>Rate</label>
+                                <md-select ng-model="detailController.userRate" md-on-close="detailController.saveRate()" md-selected-text="detailController.getSelectedStar()">
+                                    <md-optgroup label="Stars">
+                                        <md-option ng-value="star" ng-repeat="star in detailController.stars">{{star}} Star</md-option>
+                                    </md-optgroup>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <md-progress-circular ng-if="detailController.ratingLoading" md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                </md-card-content>
+            </md-card>
+        </section>
+        <md-button class="md-fab md-primary md-fab-fixed" ng-click="detailController.toggleRight()" aria-label="Videos List">
+            <ng-md-icon icon="menu" size="24"></ng-md-icon>
+        </md-button>
+    </md-content>
+
+</section>
