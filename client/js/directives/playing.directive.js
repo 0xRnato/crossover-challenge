@@ -8,14 +8,14 @@
     playing.$inject = [];
 
     function playing() {
-        var directive = {
+        const directive = {
             link: link,
             restrict: 'EA'
         };
         return directive;
 
         function link(scope, element, attrs) {
-            element[0].addEventListener("playing", function () {
+            element[0].addEventListener("playing", () => {
                 scope.$apply(attrs.playing);
             });
         }

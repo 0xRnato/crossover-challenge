@@ -8,7 +8,7 @@
     DetailService.$inject = ['$http'];
 
     function DetailService($http) {
-        var service = {
+        const service = {
             logout: _logout,
             loadVideos: _loadVideos,
             loadVideo: _loadVideo,

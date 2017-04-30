@@ -47,10 +47,9 @@
     runBlock.$inject = ['$rootScope', '$location'];
 
     function runBlock($rootScope, $location) {
-        // FIXME:
-        $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            var restrictedPage = $location.path() != '/login';
-            var loggedIn = $rootScope.userSession;
+        $rootScope.$on('$locationChangeStart', () => {
+            const restrictedPage = $location.path() != '/login';
+            const loggedIn = $rootScope.userSession;
             if (restrictedPage && !loggedIn) {
                 $location.path('/login');
             }

@@ -5,17 +5,29 @@
         .module('app.login')
         .controller('LoginController', LoginController)
 
-    LoginController.$inject = ['LoginService', '$mdToast', '$location', '$rootScope'];
+    LoginController.$inject = [
+        'LoginService',
+        '$mdToast',
+        '$location',
+        '$rootScope',
+        '$document'
+    ];
 
-    function LoginController(LoginService, $mdToast, $location, $rootScope) {
-        var vm = this;
+    function LoginController(
+        LoginService,
+        $mdToast,
+        $location,
+        $rootScope,
+        $document
+    ) {
+        const vm = this;
 
-        vm.login = function () {
+        vm.login = () => {
             vm.dataLoading = true;
             LoginService.userAuth(angular.copy(vm.user)).then(
                 function sucessCallback(response) {
                     if (response.data.status == 'success') {
-                        var userSession = {
+                        const userSession = {
                             username: response.data.username,
                             sessionId: response.data.sessionId
                         }
@@ -25,7 +37,7 @@
                     } else {
                         $mdToast.show($mdToast.simple().textContent(response.data.error));
                         vm.user = {};
-                        var input = document.getElementById('usernameForm');
+                        const input = $document.getElementById('usernameForm');
                         input.focus();
                         vm.dataLoading = false;
                     }
@@ -35,7 +47,7 @@
                         .textContent('Status error: ' + response.status + ' - ' + response.statusText)
                     );
                     vm.user = {};
-                    var input = document.getElementById('usernameForm');
+                    const input = $document.getElementById('usernameForm');
                     input.focus();
                     vm.dataLoading = false;
                 }

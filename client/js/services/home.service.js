@@ -8,7 +8,7 @@
     HomeService.$inject = ['$http'];
 
     function HomeService($http) {
-        var service = {
+        const service = {
             logout: _logout,
             loadVideos: _loadVideos
         };

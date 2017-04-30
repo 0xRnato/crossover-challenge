@@ -8,16 +8,16 @@
     onScroll.$inject = [];
 
     function onScroll() {
-        var directive = {
+        const directive = {
             link: link,
             restrict: 'EA'
         };
         return directive;
 
         function link(scope, element, attrs) {
-            var raw = element[0];
+            let raw = element[0];
 
-            element.bind('scroll', function () {
+            element.bind('scroll', () => {
                 if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
                     scope.$apply(attrs.onScroll);
                 }

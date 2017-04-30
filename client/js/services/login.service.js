@@ -8,7 +8,7 @@
     LoginService.$inject = ['$http', 'md5'];
 
     function LoginService($http, md5) {
-        var service = {
+        const service = {
             userAuth: _userAuth
         };
 

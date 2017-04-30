@@ -5,13 +5,24 @@
         .module('app.home')
         .controller('HomeController', HomeController)
 
-    HomeController.$inject = ['HomeService', '$rootScope', '$mdToast', '$location'];
+    HomeController.$inject = [
+        'HomeService',
+        '$rootScope',
+        '$mdToast',
+        '$location',
+        '$document'
+    ];
 
-    function HomeController(HomeService, $rootScope, $mdToast, $location) {
-        var vm = this;
-        var count;
+    function HomeController(
+        HomeService,
+        $rootScope,
+        $mdToast,
+        $location
+    ) {
+        const vm = this;
+        let count;
 
-        vm.logout = function () {
+        vm.logout = () => {
             vm.dataLoading = true;
             HomeService.logout(angular.copy(vm.userSession.sessionId)).then(
                 function sucessCallback(response) {
@@ -33,17 +44,17 @@
             );
         }
 
-        vm.loadMore = function () {
+        vm.loadMore = () => {
             vm.dataLoading = true;
             HomeService.loadVideos(angular.copy(vm.userSession.sessionId), count, 10).then(
                 function sucessCallback(response) {
                     if (response.data.status == 'success') {
                         if (response.data.data.length > 0) {
-                            var _videos = response.data.data;
-                            _videos.forEach(function (video) {
-                                var ratings = video.ratings;
-                                var sum = 0;
-                                ratings.forEach(function (rating) {
+                            const _videos = response.data.data;
+                            _videos.forEach((video) => {
+                                const ratings = video.ratings;
+                                let sum = 0;
+                                ratings.forEach((rating) => {
                                     sum += rating;
                                 });
                                 video.average = sum / ratings.length;
@@ -51,7 +62,7 @@
                                 video.halfStars = ((video.average === video.goldStars) ? false : true);
                                 video.grayStars = ((video.halfStars) ? 4 - video.goldStars : 5 - video.goldStars);
                                 video.stars = [];
-                                for (var i = 0; i < video.goldStars; i++) {
+                                for (let i = 0; i < video.goldStars; i++) {
                                     video.stars.push({
                                         icon: 'star'
                                     });
@@ -61,13 +72,13 @@
                                         icon: 'star_half'
                                     });
                                 }
-                                for (var i = 0; i < video.grayStars; i++) {
+                                for (let i = 0; i < video.grayStars; i++) {
                                     video.stars.push({
                                         icon: 'star_border'
                                     });
                                 }
                             });
-                            _videos.forEach(function (newVideo) {
+                            _videos.forEach((newVideo) => {
                                 vm.videos.push(newVideo);
                             });
                             vm.dataLoading = false;
@@ -89,25 +100,25 @@
             );
         };
 
-        vm.playVideo = function (_id) {
-            var video = document.getElementById(_id);
+        vm.playVideo = (_id) => {
+            const video = $document.getElementById(_id);
             if (video.paused)
                 video.play();
             else
                 video.pause();
         };
 
-        vm.pauseOthers = function (_id) {
-            var vid = document.getElementsByTagName('video');
-            for (var key = 0; key < vid.length; key++) {
-                var video = vid[key];
+        vm.pauseOthers = (_id) => {
+            const vid = $document.getElementsByTagName('video');
+            for (let key = 0; key < vid.length; key++) {
+                let video = vid[key];
                 if (video.id != _id) {
                     video.pause();
                 }
             }
         };
 
-        vm.openVideo = function (_id) {
+        vm.openVideo = (_id) => {
             $rootScope.videoId = _id;
             $location.path('/detail');
         };

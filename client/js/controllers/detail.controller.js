@@ -5,15 +5,31 @@
         .module('app.detail')
         .controller('DetailController', DetailController)
 
-    DetailController.$inject = ['DetailService', '$rootScope', '$mdToast', '$location', '$mdSidenav', '$route'];
+    DetailController.$inject = [
+        'DetailService',
+        '$rootScope',
+        '$mdToast',
+        '$location',
+        '$mdSidenav',
+        '$route',
+        '$document'
+    ];
 
-    function DetailController(DetailService, $rootScope, $mdToast, $location, $mdSidenav, $route) {
-        var vm = this;
-        var count;
+    function DetailController(
+        DetailService,
+        $rootScope,
+        $mdToast,
+        $location,
+        $mdSidenav,
+        $route,
+        $document
+    ) {
+        const vm = this;
+        let count;
         vm.stars = [1, 2, 3, 4, 5];
         vm.userRate;
 
-        vm.getSelectedStar = function () {
+        vm.getSelectedStar = () => {
             if (angular.isDefined(vm.userRate)) {
                 return vm.userRate + " Stars";
             } else {
@@ -21,7 +37,7 @@
             }
         };
 
-        vm.saveRate = function () {
+        vm.saveRate = () => {
             vm.ratingLoading = true;
             DetailService.rateVideo(angular.copy(vm.userSession.sessionId), vm.video._id, vm.userRate).then(
                 function sucessCallback(response) {
@@ -41,7 +57,7 @@
             );
         };
 
-        vm.logout = function () {
+        vm.logout = () => {
             vm.dataLoading = true;
             DetailService.logout(angular.copy(vm.userSession.sessionId)).then(
                 function sucessCallback(response) {
@@ -63,15 +79,15 @@
             );
         }
 
-        vm.loadVideo = function (_id) {
+        vm.loadVideo = (_id) => {
             vm.dataLoading = true;
             DetailService.loadVideo(angular.copy(vm.userSession.sessionId), _id).then(
                 function sucessCallback(response) {
                     if (response.data.status == 'success') {
                         vm.video = response.data.data;
-                        var ratings = vm.video.ratings;
-                        var sum = 0;
-                        ratings.forEach(function (rating) {
+                        const ratings = vm.video.ratings;
+                        let sum = 0;
+                        ratings.forEach((rating) => {
                             sum += rating;
                         });
                         vm.video.average = sum / ratings.length;
@@ -79,7 +95,7 @@
                         vm.video.halfStars = ((vm.video.average === vm.video.goldStars) ? false : true);
                         vm.video.grayStars = ((vm.video.halfStars) ? 4 - vm.video.goldStars : 5 - vm.video.goldStars);
                         vm.video.stars = [];
-                        for (var i = 0; i < vm.video.goldStars; i++) {
+                        for (let i = 0; i < vm.video.goldStars; i++) {
                             vm.video.stars.push({
                                 icon: 'star'
                             });
@@ -89,7 +105,7 @@
                                 icon: 'star_half'
                             });
                         }
-                        for (var i = 0; i < vm.video.grayStars; i++) {
+                        for (let i = 0; i < vm.video.grayStars; i++) {
                             vm.video.stars.push({
                                 icon: 'star_border'
                             });
@@ -109,17 +125,17 @@
             );
         };
 
-        vm.loadMore = function () {
+        vm.loadMore = () => {
             vm.dataLoading = true;
             DetailService.loadVideos(angular.copy(vm.userSession.sessionId), count, 10).then(
                 function sucessCallback(response) {
                     if (response.data.status == 'success') {
                         if (response.data.data.length > 0) {
-                            var _videos = response.data.data;
-                            _videos.forEach(function (video) {
-                                var ratings = video.ratings;
-                                var sum = 0;
-                                ratings.forEach(function (rating) {
+                            const _videos = response.data.data;
+                            _videos.forEach((video) => {
+                                const ratings = video.ratings;
+                                let sum = 0;
+                                ratings.forEach((rating) => {
                                     sum += rating;
                                 });
                                 video.average = sum / ratings.length;
@@ -127,7 +143,7 @@
                                 video.halfStars = ((video.average === video.goldStars) ? false : true);
                                 video.grayStars = ((video.halfStars) ? 4 - video.goldStars : 5 - video.goldStars);
                                 video.stars = [];
-                                for (var i = 0; i < video.goldStars; i++) {
+                                for (let i = 0; i < video.goldStars; i++) {
                                     video.stars.push({
                                         icon: 'star'
                                     });
@@ -137,13 +153,13 @@
                                         icon: 'star_half'
                                     });
                                 }
-                                for (var i = 0; i < video.grayStars; i++) {
+                                for (let i = 0; i < video.grayStars; i++) {
                                     video.stars.push({
                                         icon: 'star_border'
                                     });
                                 }
                             });
-                            _videos.forEach(function (newVideo) {
+                            _videos.forEach((newVideo) => {
                                 vm.videos.push(newVideo);
                             });
                             vm.dataLoading = false;
@@ -165,27 +181,27 @@
             );
         };
 
-        vm.playVideo = function (_id) {
-            var video = document.getElementById(_id);
+        vm.playVideo = (_id) => {
+            const video = $document.getElementById(_id);
             if (video.paused)
                 video.play();
             else
                 video.pause();
         };
 
-        vm.backToHome = function () {
+        vm.backToHome = () => {
             $location.path('/home');
         };
 
         vm.toggleRight = buildToggler('right');
 
         function buildToggler(componentId) {
-            return function () {
+            return () => {
                 $mdSidenav(componentId).toggle();
             };
         }
 
-        vm.openVideo = function (_id) {
+        vm.openVideo = (_id) => {
             $rootScope.videoId = _id;
             $route.reload();
         };
@@ -195,10 +211,9 @@
 
         function activate() {
             vm.userSession = $rootScope.userSession;
-            vm.video = {};
             vm.videos = [];
             count = 0;
-            vm.loadVideo($rootScope.videoId);
+            vm.loadVideo(angular.copy($rootScope.videoId));
             vm.loadMore();
         }
     }
